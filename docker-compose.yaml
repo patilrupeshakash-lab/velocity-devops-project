@@ -1,35 +1,8 @@
 version: '3'
-
 services:
   tomcat-service:
-    image: tomcat:10
-    container_name: tomcat
+    image: 'tomcat:10'
     ports:
       - "8080:8080"
     volumes:
       - "/mnt/wars:/usr/local/tomcat/webapps"
-    depends_on:
-      - mysql-db
-    networks:
-      - app-network
-
-  mysql-db:
-    image: mysql:8
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: rupesh
-      MYSQL_PASSWORD: rupesh123
-    volumes:
-      - mysql-data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-
-volumes:
-  mysql-data:
