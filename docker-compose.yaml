@@ -1,8 +1,39 @@
-version: '3'
+version: '3.8'
+
 services:
+  # MySQL Database Service
+  db:                    
+    image: mysql:latest  
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rupesh123
+      MYSQL_DATABASE: test  # Ensure this matches the DB name in your JSP
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: rupesh123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks: 
+      - network_a
+
+  # Tomcat Server Service
   tomcat-service:
-    image: 'tomcat:10'
+    image: tomcat:10
+    container_name: tomcat_server
     ports:
       - "8080:8080"
     volumes:
-      - "/mnt/wars:/usr/local/tomcat/webapps"
+      - /mnt/wars:/usr/local/tomcat/webapps
+    depends_on:
+      - db
+    networks: 
+      - network_a
+
+volumes:
+  mysql_data:
+
+networks:
+  network_a:
+    driver: bridge
